@@ -108,7 +108,7 @@ class MuteQuack implements QuackBehavior
 /***
  * Class Duck
  */
-class Duck
+abstract class Duck
 {
     private $_flyBehavior;
     private $_quackBehavior;
@@ -154,18 +154,48 @@ class MallardDuck extends Duck
     /**
      * MallardDuck constructor.
      */
-    function __construct()
-    {
-        $this->setQuackBehavior(new MuteQuack());
-        $this->setFlyBehavior(new FlyWithWings());
-    }
+//    function __construct()
+//    {
+//        $this->setQuackBehavior(new MuteQuack());
+//        $this->setFlyBehavior(new FlyWithWings());
+//    }
 }
 
 /** @var  $m */
 $m = new MallardDuck();
 if (isset($m)) {
+    $m->setQuackBehavior(new Quack());
     $m->performQuack();
 }
 if (isset($m)) {
+    $m->setFlyBehavior(new FlyWithWings());
     $m->performFly();
 }
+
+class FlyWithRocket implements FlyBehavior{
+    public function fly()
+    {
+        // TODO: Implement fly() method.
+        echo "i am flying with a rocket";
+    }
+}
+if (isset($m)) {
+    $m->setFlyBehavior(new FlyWithRocket());
+    $m->performFly();
+}
+
+/***
+ * Class DuckCall 鸭鸣发生器
+ */
+class DuckCall{
+    private $_quackBehavior;
+    public function setQuackBehavior($quackBehavior){
+        $this->_quackBehavior = $quackBehavior;
+    }
+    public function performQuack(){
+        $this->_quackBehavior->quack();
+    }
+}
+$fakeDuck = new DuckCall();
+$fakeDuck->setQuackBehavior(new MuteQuack());
+$fakeDuck->performQuack();
